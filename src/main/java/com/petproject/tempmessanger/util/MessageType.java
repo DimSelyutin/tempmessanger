@@ -1,6 +1,6 @@
 package com.petproject.tempmessanger.util;
 
-public enum UserState {
+public enum MessageType {
     CHAT,
     JOIN,
     LEAVE

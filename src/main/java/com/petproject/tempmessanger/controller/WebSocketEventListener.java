@@ -25,7 +25,6 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
 
-
         logger.info("New connection: ");
     }
 
@@ -37,18 +36,27 @@ public class WebSocketEventListener {
         Long roomId = (Long) headerAccessor.getSessionAttributes().get("roomId");
 
         if (username != null) {
-            logger.info("User left: " + username);
-
-            if (roomId != null) {
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(ChatMessage.MessageType.LEAVE);
-                chatMessage.setSender(username);
-                chatMessage.setRoomId(roomId);
-
-                messagingTemplate.convertAndSend("/topic/public", chatMessage);
-            } else {
-                logger.warn("Room ID not found for user: " + username);
-            }
+            handleUserDisconnect(username, roomId);
         }
+    }
+
+    private void handleUserDisconnect(String username, Long roomId) {
+        logger.info("User disconnected: " + username);
+
+        if (roomId != null) {
+            ChatMessage chatMessage = createLeaveMessage(username, roomId);
+            messagingTemplate.convertAndSend("/topic/public", chatMessage);
+        } else {
+            logger.warn("Room ID not found for user: " + username);
+        }
+    }
+
+    private ChatMessage createLeaveMessage(String username, Long roomId) {
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setType(ChatMessage.MessageType.LEAVE);
+        chatMessage.setSender(username);
+        
+
+        return chatMessage;
     }
 }

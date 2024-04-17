@@ -58,7 +58,7 @@ let sendMessage = (event) => {
 }
 
 let sendChatMessage = (messageContent) => {
-    let chatMessage = { sender: username, content: messageContent, type: 'CHAT', roomId: roomId };
+    let chatMessage = { sender: username, content: messageContent, type: 'CHAT', room: {id: roomId}  };
     stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
 }
 
@@ -67,7 +67,7 @@ let subscribeToPublicTopic = () => {
 }
 
 let addUserToChat = () => {
-    stompClient.send("/app/chat.addUser", {}, JSON.stringify({ sender: username, type: 'JOIN', roomId: roomId }))
+    stompClient.send("/app/chat.addUser", {}, JSON.stringify({ sender: username, type: 'JOIN', room: {id: roomId} }))
 }
 
 // Функция для создания элемента сообщения
@@ -98,7 +98,7 @@ let createMessageElement = (message) => {
         let spanElement = document.createElement('span');
         spanElement.style.float = "right";
         
-        spanElement.textContent = new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        spanElement.textContent = message.created_at;
         messageElement.appendChild(avatarElement);
         messageElement.appendChild(usernameElement);
         messageElement.appendChild(spanElement);
