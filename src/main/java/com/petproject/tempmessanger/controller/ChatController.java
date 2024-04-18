@@ -1,5 +1,6 @@
 package com.petproject.tempmessanger.controller;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,13 @@ import org.springframework.stereotype.Controller;
 
 import com.petproject.tempmessanger.dto.ChatMessageDTO;
 import com.petproject.tempmessanger.entity.ChatMessage;
+
 import com.petproject.tempmessanger.entity.Room;
 import com.petproject.tempmessanger.entity.UserRoomMapping;
 import com.petproject.tempmessanger.repository.ChatMessageRepository;
 import com.petproject.tempmessanger.repository.RoomRepository;
 import com.petproject.tempmessanger.repository.UserRoomMappingRepository;
+import com.petproject.tempmessanger.util.MessageType;
 
 @Controller
 public class ChatController {
@@ -76,13 +79,13 @@ public class ChatController {
                     .collect(Collectors.toList());
         } else {
             Room newRoom = new Room();
-            
-            //здесь один id
+
+            // здесь один id
             newRoom.setId(roomId);
             newRoom.setName(owner + username);
-            //а здесь уже другой совсем??
+            // а здесь уже другой совсем??
             Room savedRoom = roomRepository.save(newRoom);
-            
+
             UserRoomMapping mapping = new UserRoomMapping();
             mapping.setUsername(username);
             mapping.setRoomId(savedRoom.getId());
@@ -93,22 +96,16 @@ public class ChatController {
     }
 
     private ChatMessageDTO convertToDto(ChatMessage chatMessage) {
-        ChatMessageDTO chatMessageDTO = new ChatMessageDTO();
+        Long id = chatMessage.getId();
+        String content = chatMessage.getContent();
+        String sender = chatMessage.getSender();
+        long roomId = chatMessage.getRoom() != null ? chatMessage.getRoom().getId() : 0; // или другое значение по
+                                                                                         // умолчанию
+        MessageType type = chatMessage.getType();
+        
+           String created_at = chatMessage.getCreated_at().format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yy"));
+        
 
-        chatMessageDTO.setId(chatMessage.getId());
-
-        if (chatMessage.getRoom() != null) {
-            chatMessageDTO.setRoomId(chatMessage.getRoom().getId());
-        }
-
-        chatMessageDTO.setContent(chatMessage.getContent());
-        chatMessageDTO.setSender(chatMessage.getSender());
-
-        if (chatMessage.getCreated_at() != null) {
-            chatMessageDTO
-                    .setCreated_at(chatMessage.getCreated_at().format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yy")));
-        }
-
-        return chatMessageDTO;
+        return new ChatMessageDTO(id, content, sender, roomId, type, created_at);
     }
 }

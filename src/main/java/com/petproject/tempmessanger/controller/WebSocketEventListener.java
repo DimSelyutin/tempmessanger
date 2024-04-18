@@ -13,6 +13,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import com.petproject.tempmessanger.entity.ChatMessage;
+import com.petproject.tempmessanger.util.MessageType;
 
 @Component
 public class WebSocketEventListener {
@@ -53,7 +54,7 @@ public class WebSocketEventListener {
 
     private ChatMessage createLeaveMessage(String username, Long roomId) {
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setType(ChatMessage.MessageType.LEAVE);
+        chatMessage.setType(MessageType.LEAVE);
         chatMessage.setSender(username);
         
 

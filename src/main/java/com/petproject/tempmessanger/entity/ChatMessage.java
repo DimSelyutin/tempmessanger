@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.petproject.tempmessanger.util.MessageType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -39,15 +41,6 @@ public class ChatMessage {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private LocalDateTime created_at;
-
-
-
-    public enum MessageType {
-        CHAT,
-        JOIN,
-        LEAVE
-    }
-
    
 
 }

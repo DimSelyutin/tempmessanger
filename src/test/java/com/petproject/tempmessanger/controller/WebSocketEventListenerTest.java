@@ -1,35 +1,41 @@
 package com.petproject.tempmessanger.controller;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 
-import java.util.Map;
-
-import org.springframework.amqp.core.Message;
+import org.mockito.Mockito;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import com.petproject.tempmessanger.entity.ChatMessage;
+import static org.mockito.ArgumentMatchers.eq;
 
-import org.springframework.util.ReflectionUtils;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebSocketEventListenerTest {
 
-    @Mock
-    private SessionDisconnectEvent disconnectEvent;
-
-    @Mock
-    private SimpMessageSendingOperations messagingTemplate;
-
-    @Mock
-    private StompHeaderAccessor headerAccessor;
-
-    @Test
-    public void testHandleUserDisconnect() {
-        WebSocketEventListener webSocketListener = new WebSocketEventListener();
-
+    public static void main(String[] args) {
+        testHandleUserDisconnect();
     }
 
+    public static void testHandleUserDisconnect() {
+        // WebSocketEventListener webSocketEventListener = new WebSocketEventListener();
+        
+        // // Создание мок объекта SessionDisconnectEvent
+        // SessionDisconnectEvent event = new SessionDisconnectEvent(new Object(), null, "sessionId");
+
+        // // Моделирование атрибутов сессии
+        // Map<String, Object> sessionAttributes = new HashMap<>();
+        // sessionAttributes.put("username", "testUser");
+        // sessionAttributes.put("roomId", 123L);
+        
+        // // Создание mock объекта StompHeaderAccessor
+        // StompHeaderAccessor headerAccessor = StompHeaderAccessor.create(StompCommand.DISCONNECT);
+        // headerAccessor.setSessionAttributes(sessionAttributes);
+
+        // event.setMessage(headerAccessor.getMessage());
+
+        // // Вызов тестируемого метода
+        // webSocketEventListener.handleWebSocketDisconnectListener(event);
+    }
 }

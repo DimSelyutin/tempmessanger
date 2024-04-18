@@ -4,13 +4,15 @@ import com.petproject.tempmessanger.util.MessageType;
 
 import lombok.Data;
 
-@Data
-public class ChatMessageDTO {
-    private Long id;
-    private String content;
-    private String sender;
-    private long roomId;
-    private MessageType type;
-    private String created_at;
+
+public record ChatMessageDTO(
+        Long id,
+        String content,
+        String sender,
+        long roomId,
+        MessageType type,
+        String created_at) {
+
     
 }
+
